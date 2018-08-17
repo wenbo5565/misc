@@ -1,1 +1,3 @@
 Miscellaneous
+
+MySQL exercise
