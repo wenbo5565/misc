@@ -1,3 +1,7 @@
+
+
+
+
 select user_id, previous_time
 	from
 	(select user_id, time_stamp,
@@ -8,7 +12,4 @@ where order_desc = 1
 order by user_id
 limit 10;
 
-#select *
-#from q1;
 
-# alter table q1 change column timstamp time_stamp integer;
