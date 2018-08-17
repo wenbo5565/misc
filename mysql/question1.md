@@ -1,6 +1,6 @@
 Question 1
 
-<img src = "https://github.com/wenbo5565/misc/blob/master/mysql/question/question1.PNG" width="60%" height="60%">
+<img src = "https://github.com/wenbo5565/misc/blob/master/mysql/question/question1.PNG" width="70%" height="70%">
 
 ```sql
 select user_id, previous_time
