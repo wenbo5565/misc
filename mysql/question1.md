@@ -1,8 +1,8 @@
 Question 1
 
-<img src = "https://github.com/wenbo5565/misc/new/master/mysql/question/questio1.png">
+<img src = "https://github.com/wenbo5565/misc/blob/master/mysql/question/question1.PNG">
 
-"""sql
+```sql
   select user_id, previous_time
 	from
     (select user_id, time_stamp,
@@ -12,4 +12,4 @@ Question 1
   where order_desc = 1
   order by user_id
   limit 10;
-"""
+```
