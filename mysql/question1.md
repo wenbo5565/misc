@@ -20,6 +20,9 @@ limit 10;
 <img src = "https://github.com/wenbo5565/misc/blob/master/mysql/question/question2.PNG" width="70%" height="70%">
 
 ```sql
+# sql scirpt for question 2
+# by Wenbo Ma
+
 # get distinct user_id from web
 create table web
 select distinct user_id as w_id
