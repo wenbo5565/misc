@@ -15,7 +15,7 @@ order by user_id
 limit 10;
 ```
 
-*Question 2**
+**Question 2**
 
 <img src = "https://github.com/wenbo5565/misc/blob/master/mysql/question/question2.PNG" width="70%" height="70%">
 
