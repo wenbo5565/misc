@@ -1,0 +1,58 @@
+#### FSRM 563 HW 8 Wenbo Ma
+
+#### Read in Data
+```{r}
+yy=matrix(scan("Diabold_Li_data.txt"),ncol=19,byrow=T)
+x=yy[1,2:19] ## x is the time to maturity (1 month, 2 months, etc.)
+date = 19900531
+y=yy[yy[,1]==date,2:19] ## term structure at 1990.05.31
+```
+
+#### Code for Quesiton 1,2,3 and 4
+```{r}
+##=======data====================
+plot(x,y,xlab="time to maturity",ylab="interest rate")
+
+##=======local polynomial========
+library(KernSmooth)
+dpill(x,y)
+out.localPoly = locpoly(x,y,bandwidth=dpill(x,y))
+lines(out.localPoly$x,out.localPoly$y,lty=1,col='blue')
+
+##=======Basis Spline============
+library(splines)
+xx = bs(x,knots=2)
+summary(lm(y~xx))
+lines(x,lm(y~xx)$fit,lty=2,col='red')
+
+##=======smoothing spline========
+out.s=smooth.spline(x,y,cv=TRUE) ## ordinary Cross Validation
+lines(out.s$x,out.s$y,lty=3,col='green')
+
+##=======optimal lambda N-S curve approach===========
+
+lam11 = 0.1975 ## optimal lambda getting from hw 7
+
+##======== function to obtain Nelson-Siegel curve on a dense set of points
+plotNScurve=function(min=1,max=120,lam=0.057,coef){
+x=min+(1:1000)/1000*(max-min)  ## x is sequence of time 
+zz1=(1-exp(-lam*x))/lam/x  
+zz2=zz1-exp(-lam*x) ## 
+y=coef[1]+coef[2]*zz1+coef[3]*zz2  ## interest rate
+return(list(x=x,y=y))}
+
+##======N-S model and plot=========================
+zz1=(1-exp(-lam11*x))/lam11/x
+zz2=zz1-exp(-lam11*x)
+xx=cbind(zz1,zz2)
+outNS1=lm(y~xx)
+plotNS1=plotNScurve(min=1,max=120,lam=lam11,coef=outNS1$coef)
+lines(plotNS1$x,plotNS1$y,main="N-S Curve",lty=4,col='black')
+legend('bottomright',cex=1,lty=1,legend=c("local polynomial","basis spline","smoothing spline","N-S optimal lambda"),col=c("blue","red","green","black"))
+```
+
+### Comment:
+- 1. The local polynomial does the worst job. It always underestimates the interest rate and has a large deviation at boundary.
+- 2. The B-spline does good job for bond maturing at [1,12]; underestimates bond maturing at [15,21]; overestimates bond maturing at [24,84]
+- 3. The smoothing spline traverses each data. It fits the data very well but may suffer from overfitting in general. For exmaple, the last data [120 month] is inverted and it is not usual in normal economic condition.
+- 4. The N-S curve does good job for bond maturing at [1,36] and tends to underestimate the interest rate from then on.
